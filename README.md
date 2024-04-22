@@ -12,14 +12,19 @@ Notes on deploying a single site [WordPress FPM Edition](https://hub.docker.com/
 
 ## Table of contents
 
-- [Overview](#overview)
-    - [Host requirements](#reqts)
-- [Configuration](#config)
-- [Deploy](#deploy)
-- [Adminer](#adminer)
-- [Teardown](#teardown)
-- [References](#references)
-- [Notes](#notes)
+- [WordPress (FPM Edition) - Docker](#wordpress-fpm-edition---docker)
+  - [Table of contents](#table-of-contents)
+  - [Overview](#overview)
+    - [Host requirements](#host-requirements)
+  - [Configuration](#configuration)
+  - [Deploy](#deploy)
+  - [Adminer](#adminer)
+  - [Teardown](#teardown)
+  - [References](#references)
+  - [Notes](#notes)
+    - [Let's Encrypt SSL Certificate](#lets-encrypt-ssl-certificate)
+    - [Error establishing database connection](#error-establishing-database-connection)
+    - [Port Mapping](#port-mapping)
 
 ## <a name="overview"></a>Overview
 
@@ -85,17 +90,17 @@ Modify `nginx/default.conf` and replace `$host` and `8443` with your **Domain Na
 server {
     listen 80;
     listen [::]:80;
-    server_name $host;
+    server_name gracenc.vn;
     location / {
         # update port as needed for host mapped https
-        rewrite ^ https://$host:8443$request_uri? permanent;
+        rewrite ^ https://gracenc.vn:443$request_uri? permanent;
     }
 }
 
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    server_name $host;
+    server_name gracenc.vn;
     index index.php index.html index.htm;
     root /var/www/html;
     server_tokens off;
